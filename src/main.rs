@@ -1,5 +1,7 @@
 use std::fs::OpenOptions;
 use std::io::Write;
+use mysql::*;
+use mysql::prelude::Queryable;
 
 #[derive(Debug)]
 struct Todo {
@@ -32,6 +34,14 @@ impl Todo {
 }
 
 fn main() {
+    // TODO: fix error handling
+    let url = "mysql://pillaimanish:password@localhost:3306/todoRust";
+    let pool = Pool::new(url);
+
+    let mut conn = pool.unwrap().get_conn();
+
+    let check = conn.expect("REASON").query_drop("CREATE TABLE TODO (date varchar(250), title varchar(250), status varchar(250))");
+
     let date = std::env::args().nth(1).expect("Please specify an date");
     let title = std::env::args().nth(2).expect("Please specify an title");
     let status = std::env::args().nth(2).expect("Please specify an status");
