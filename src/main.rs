@@ -21,12 +21,15 @@ impl Todo {
         let params = params! {"date" => &self.date, "title" => &self.title, "status"=> &self.status};
         let err = conn.exec_drop(query, params).unwrap();
 
+        /* NOTE: not required as storing in the db
         let mut file = OpenOptions::new().write(true).append(true).open("/home/pillaimanish/Documents/Projects/Todo/sample-file.txt").unwrap();
 
         let content = format!("{}\t{}\t{}\t\n", self.date, self.title, self.status);
         if let Err(e) =  file.write(content.as_ref()) {
             eprint!("Error: {}", e)
         }
+
+         */
 
 
         // return self
