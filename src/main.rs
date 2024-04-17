@@ -14,7 +14,7 @@ fn new_to_do(date: String, title: String, status: String) -> Todo {
 }
 
 impl Todo {
-    fn add(self: Todo) -> Todo {
+    fn add(self: &Todo) {
         let mut file = OpenOptions::new().write(true).append(true).open("/home/pillaimanish/Documents/Projects/Todo/sample-file.txt").unwrap();
 
         let content = format!("{}\t{}\t{}\t\n", self.date, self.title, self.status);
@@ -23,11 +23,11 @@ impl Todo {
         }
 
 
-        return self
+        // return self
     }
 
-    fn view(self: Todo) -> Todo {
-        return self
+    fn view(self: &Todo) -> &Todo {
+        return &self
     }
 }
 
@@ -39,7 +39,7 @@ fn main() {
     let todo = new_to_do(date, title, status);
 
     todo.add();
-    // println!("{:?}", todo.view());
+    println!("{:?}", todo.view());
 
 
 }
