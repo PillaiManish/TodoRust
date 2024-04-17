@@ -1,3 +1,6 @@
+use std::fs::OpenOptions;
+use std::io::Write;
+
 #[derive(Debug)]
 struct Todo {
     date: String,
@@ -12,6 +15,14 @@ fn new_to_do(date: String, title: String, status: String) -> Todo {
 
 impl Todo {
     fn add(self: Todo) -> Todo {
+        let mut file = OpenOptions::new().write(true).append(true).open("/home/pillaimanish/Documents/Projects/Todo/sample-file.txt").unwrap();
+
+        let content = format!("{}\t{}\t{}\t\n", self.date, self.title, self.status);
+        if let Err(e) =  file.write(content.as_ref()) {
+            eprint!("Error: {}", e)
+        }
+
+
         return self
     }
 
@@ -27,7 +38,8 @@ fn main() {
 
     let todo = new_to_do(date, title, status);
 
-    println!("{:?}", todo.view());
+    todo.add();
+    // println!("{:?}", todo.view());
 
 
 }
