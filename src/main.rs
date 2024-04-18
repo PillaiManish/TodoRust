@@ -1,9 +1,13 @@
+mod handlers;
+mod routes;
+
 use std::fs::OpenOptions;
 use std::io::Write;
 use mysql::*;
 use mysql::prelude::Queryable;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 struct Todo {
     date: String,
     title: String,
@@ -40,7 +44,13 @@ impl Todo {
     }
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
+    let routes = routes::routes();
+
+    println!("Server started at http://localhost:8000");
+    warp::serve(routes).run(([127, 0, 0, 1], 8000)).await;
+
     // TODO: fix error handling
     let url = "mysql://pillaimanish:password@localhost:3306/todoRust";
     let pool = Pool::new(url).unwrap();

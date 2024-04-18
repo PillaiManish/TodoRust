@@ -7,3 +7,6 @@ edition = "2021"
 
 [dependencies]
 mysql = "*"
+tokio = { version = "1.37.0",features = ["full"] }
+warp = "0.3"
+serde = { version = "1.0", features = ["derive"] }
